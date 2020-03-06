@@ -4,14 +4,15 @@ module.exports = function (grunt) {
        pkg: grunt.file.readJSON('package.json'),
        ts: {
             build: {
-                src: ["src/server.ts", "!node_modules/**/*.ts"],
+                src: ["src/**/*.ts","!node_modules/**/*.ts"],
                 // Avoid compiling TypeScript files in node_modules
                 options: {
                     module: 'commonjs',
                     // To compile TypeScript using external modules like NodeJS
                     fast: 'never'
                     // You'll need to recompile all the files each time for NodeJS
-                }
+                },
+                outDir: "dist"
             }
         },
         tslint: {
@@ -25,7 +26,7 @@ module.exports = function (grunt) {
         },
         watch: {
             scripts: {
-                files: ['src/server.ts', '!node_modules/**/*.ts'], // the watched files
+                files: ['src/**/*.ts', '!node_modules/**/*.ts'], // the watched files
                 tasks: ["newer:tslint:all", "ts:build"], // the task to run
                 options: {
                     spawn: false // makes the watch task faster
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
         },
         nodemon: {
             dev: {
-                script: 'src/server.ts'
+                script: 'dist/server.js'
             },
             options: {
                 ignore: ['node_modules/**', 'Gruntfile.js'],
@@ -45,7 +46,7 @@ module.exports = function (grunt) {
         },
         concurrent: {
             watchers: {
-                tasks: ['nodemon', 'watch'],
+                tasks: ['ts:build','nodemon', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
