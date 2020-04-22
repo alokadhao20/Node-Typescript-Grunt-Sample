@@ -5,22 +5,28 @@ module.exports = function (grunt) {
        ts: {
             build: {
                 src: ["src/**/*.ts","!node_modules/**/*.ts"],
+                tsconfig: './tsconfig.json',
                 // Avoid compiling TypeScript files in node_modules
                 options: {
                     module: 'commonjs',
                     // To compile TypeScript using external modules like NodeJS
-                    fast: 'never'
+                    fast: 'never',
+                    esModuleInterop: true,
+                    resolveJsonModule: true
                     // You'll need to recompile all the files each time for NodeJS
                 },
                 outDir: "dist"
-            }
+            },
+            // default : {
+            //     tsconfig: true
+            // }
         },
         tslint: {
             options: {
-                configuration: grunt.file.readJSON("tslint.json")
+                configuration: "tslint.json"
             },
             all: {
-                src: ["src/server.ts", "!node_modules/**/*.ts", "!obj/**/*.ts", "!typings/**/*.ts"]
+                src: ['src/**/*.ts', "!node_modules/**/*.ts", "!obj/**/*.ts", "!typings/**/*.ts"]
                 // avoid linting typings files and node_modules files
             }
         },
@@ -46,7 +52,7 @@ module.exports = function (grunt) {
         },
         concurrent: {
             watchers: {
-                tasks: ['ts:build','nodemon', 'watch'],
+                tasks: ['tslint','nodemon', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
@@ -62,6 +68,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-concurrent");
  
     // Default tasks.
-    grunt.registerTask('default', ["tslint:all", "ts:build"]);
+    grunt.registerTask('default', ["tslint:all", "ts"]);
     grunt.registerTask("serve", ["concurrent:watchers"]);
  };
