@@ -205,3 +205,6 @@ grunt.loadNpmTasks("grunt-concurrent");
 
 ## Create a serve task that will call watch and then nodemon: ## 
 grunt.registerTask("serve", ["concurrent:watchers"]);
+
+## Check swagger ## 
+http://localhost:9095/api-docs/

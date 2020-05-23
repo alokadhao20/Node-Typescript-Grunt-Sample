@@ -14,11 +14,11 @@ if(mongoPORT == null) {
 console.log("MongoURL - ", mongoURL);
 
 let config = {
-  "PORT": 56359,
+  "PORT": 9095,
   "mongodb": {
     "url": "mongodb://"+ mongoURL,
     "userCollection": "user",
-    "dbName": "hungry"
+    "dbName": "test01"
   }
 }
 
